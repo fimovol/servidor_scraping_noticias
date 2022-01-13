@@ -24,7 +24,8 @@ var schema = buildSchema(`
     rollDice(numDice: Int!, numSides: Int): [Int]
     scraping: [Anime]
     animeflash: [Anime]
-    noticias: [Noticia]
+    noticias(limit: Int): [Noticia]
+    peru21noticias(limit: Int): [Noticia]
   }
 `);
 
@@ -91,7 +92,7 @@ var root = {
       await browser.close();
       return enlaces
   },
-  noticias: async()=>{
+  noticias: async({limit})=>{
     const goto = 'https://elcomercio.pe/ultimas-noticias/';
     const browser = await puppeteer.launch(/*{headless:false}*/);
     const page = await browser.newPage();
@@ -117,7 +118,34 @@ var root = {
         return links;
     })
     await browser.close();
-    return enlaces
+    return enlaces.slice(0,limit)
+  },
+  peru21noticias: async({limit})=>{
+    const goto = 'https://peru21.pe/archivo/';
+    const browser = await puppeteer.launch(/*{headless:false}*/);
+    const page = await browser.newPage();
+    await page.goto(goto);
+    await page.waitForTimeout(2000)
+    const enlaces = await page.evaluate(() => {
+        const elements = document.querySelectorAll('[role="main"] div div div [itemprop="name"] [itemprop="url"]');
+        const elements2 = document.querySelectorAll('[role="main"] div div figure [itemprop="url"] picture img');
+        const elements3 = document.querySelectorAll('[role="main"] div div div [class="story-item__date font-thin ml-5 text-xs text-gray-300 md:mt-5 md:ml-0"]');
+
+        const links = []
+
+        elements.forEach( (e,p) => {
+            const objeto = {
+                nombre: e.textContent,
+                hora: elements3[p].textContent,
+                img: elements2[p].getAttribute('src'),
+                href: 'https://peru21.pe'+e.getAttribute('href')
+            }
+            links.push(objeto)
+        })
+        return links;
+    })
+    await browser.close();
+    return enlaces.slice(0,limit)
   },
 }
 
