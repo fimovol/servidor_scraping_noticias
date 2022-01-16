@@ -7,8 +7,12 @@ https://github.com/fimovol/noticias_variadas_scraping_cliente.git
 
 instala las dependencias con:
 
+```
 npm install
+```
 
 corre el servidor con:
 
+```
 npm run dev
+```
