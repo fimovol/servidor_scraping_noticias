@@ -23,7 +23,6 @@ var schema = buildSchema(`
   type Query {
     rollDice(numDice: Int!, numSides: Int): [Int]
     scraping: [Anime]
-    animeflash: [Anime]
     noticias(limit: Int): [Noticia]
     peru21noticias(limit: Int): [Noticia]
     larepublica(limit: Int): [Noticia]
@@ -68,38 +67,14 @@ var root = {
         await browser.close();
         return enlaces
     },
-    animeflash: async()=>{
-      const goto = 'https://animeflash.xyz/'
+    
+    noticias: async({limit})=>{
+      const goto = 'https://elcomercio.pe/ultimas-noticias/';
       const browser = await puppeteer.launch(/*{headless:false}*/);
       const page = await browser.newPage();
       await page.goto(goto);
       await page.waitForTimeout(2000)
       const enlaces = await page.evaluate(() => {
-          const elements = document.querySelectorAll('[class="items"] a');
-          const elements2 = document.querySelectorAll('[class="items"] img');
-          const links = [];
-  
-          elements.forEach( (elemento,index) => {
-              const objeto = {
-                  titulo: elemento.getAttribute('title'),
-                  imagen: elements2[index].getAttribute('src'),
-                  ruta: 'https://animeflash.xyz'+elemento.getAttribute('href')
-              }
-              links.push(objeto)
-          })
-          return links;
-      })
-  
-      await browser.close();
-      return enlaces
-  },
-  noticias: async({limit})=>{
-    const goto = 'https://elcomercio.pe/ultimas-noticias/';
-    const browser = await puppeteer.launch(/*{headless:false}*/);
-    const page = await browser.newPage();
-    await page.goto(goto);
-    await page.waitForTimeout(2000)
-    const enlaces = await page.evaluate(() => {
         const elements = document.querySelectorAll('[role="main"] div [itemprop="name"] a');
         const elements2 = document.querySelectorAll('[role="main"] div [class="story-item__top flex items-center md:flex-col md:items-start"] p');
         const elements3 = document.querySelectorAll('[role="main"] div div div figure a picture img');
