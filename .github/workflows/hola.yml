@@ -1,0 +1,14 @@
+name: hola que tal
+
+on:
+  push:
+    branches:
+      - master
+      
+jobs:
+  hello_world:
+    runs-on: ubuntu-18.04
+    steps:
+      - name : echo del mensaje
+        run: |
+          echo "hola quetal me llamo javier"
