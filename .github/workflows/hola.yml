@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      
+
 jobs:
   hello_world:
     runs-on: ubuntu-18.04
@@ -12,3 +12,7 @@ jobs:
       - name : echo del mensaje
         run: |
           echo "hola quetal me llamo javier"
+      - name : dime la fecha
+        run: |
+          date
+      - run: ls -l
