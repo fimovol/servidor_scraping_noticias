@@ -1,18 +1,18 @@
-name: hola que tal
+# name: hola que tal
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
-jobs:
-  hello_world:
-    runs-on: ubuntu-18.04
-    steps:
-      - name : echo del mensaje
-        run: |
-          echo "hola quetal me llamo javier"
-      - name : dime la fecha
-        run: |
-          date
-      - run: ls -l
+# jobs:
+#   hello_world:
+#     runs-on: ubuntu-18.04
+#     steps:
+#       - name : echo del mensaje
+#         run: |
+#           echo "hola quetal me llamo javier"
+#       - name : dime la fecha
+#         run: |
+#           date
+#       - run: ls -l
