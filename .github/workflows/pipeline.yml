@@ -15,5 +15,5 @@ jobs:
         with:
           node-version: '14'
       - name: instalar dependencias
-        run: npm i --no-audir --no-fund --no-optional
+        run: npm i 
       
